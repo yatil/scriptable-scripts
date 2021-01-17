@@ -1,0 +1,12 @@
+{
+  "always_run_in_app" : false,
+  "icon" : {
+    "color" : "deep-blue",
+    "glyph" : "clock"
+  },
+  "name" : "Time to Biden",
+  "script" : "\/* Time to Biden widget *\/\n\/* Adapted from Simon Willison’s script here: https:\/\/observablehq.com\/@simonw\/seconds-to-biden *\/\n\nasync function createWidget() {\n  \n  let biden_starts = 1611162000000;\n  let seconds_size = 32;\n  let text_size = 14;\n  \n  if (config.widgetFamily == \"medium\") {\n    seconds_size = 54;\n    text_size = 40;\n  }\n  \n  if (config.widgetFamily == \"large\") {\n    seconds_size = 60;\n    text_size = 40;\n  }\n  \n  let w = new ListWidget();\n  w.setPadding(5,5,5,5);\n  \n  let gradient = new LinearGradient()\n  gradient.locations = [0, 1]\n  gradient.colors = [\n    new Color(\"#1119\"),\n    new Color(\"#111f\"),\n  ]\n  \n  w.backgroundColor = new Color(\"#fff\");\n  w.backgroundGradient = gradient;\n  \n  \n  w.addSpacer();\n  \n  let timer = w.addDate(new Date(biden_starts));\/\/w.addText((Math.max(0, Math.ceil((biden_starts - Date.now()) \/ 1000))).toString());\n  timer.applyTimerStyle();\n  timer.font = Font.ultraLightMonospacedSystemFont(seconds_size);\n  timer.textColor = Color.white();\n  timer.centerAlignText();\n    \n  let toBiden = w.addText(\"Until Biden\");\n  toBiden.font = Font.boldSystemFont(text_size);\n  toBiden.textColor = Color.white();\n  toBiden.centerAlignText();\n  \n  w.addSpacer();\n  \n  return w;\n}\n\nlet widget = await createWidget();\n\/\/ Check if the script is running in\n\/\/ a widget. If not, show a preview of\n\/\/ the widget to easier debug it.\nif (!config.runsInWidget) {\n  config.widgetFamily = \"small\";\n  await widget.presentSmall()\n  config.widgetFamily = \"medium\";\n  await widget.presentMedium()\n  config.widgetFamily = \"large\";\n  await widget.presentLarge()\n}\n\/\/ Tell the system to show the widget.\nScript.setWidget(widget)\nScript.complete()",
+  "share_sheet_inputs" : [
+
+  ]
+}
